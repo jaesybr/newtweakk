@@ -25,8 +25,6 @@
     return didFinishLaunching;
 }
 
-%end
-
 %new
 - (void)injectFloatingIcon {
     NSLog(@"injectFloatingIcon method called.");
