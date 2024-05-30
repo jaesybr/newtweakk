@@ -1,5 +1,10 @@
 #import <UIKit/UIKit.h>
 
+// Declare the injectFloatingIcon method to avoid method not found error
+@interface UIApplicationDelegate (FloatingIcon)
+- (void)injectFloatingIcon;
+@end
+
 %hook UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -16,7 +21,10 @@
 }
 
 - (void)injectFloatingIcon {
-    UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    // Get the root view controller in a way compatible with iOS 13 and later
+    UIWindow *keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    UIViewController *rootViewController = keyWindow.rootViewController;
+    
     if ([rootViewController isKindOfClass:[UIViewController class]]) {
         // Create and add the floating icon
         UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)]; // Adjust frame as needed
