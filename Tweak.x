@@ -1,6 +1,8 @@
 #import <UIKit/UIKit.h>
 
-// Declare the injectFloatingIcon method within a category on NSObject
+@interface UIApplicationDelegate : UIResponder <UIApplicationDelegate>
+@end
+
 @interface NSObject (FloatingIcon)
 - (void)injectFloatingIcon;
 @end
@@ -9,7 +11,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     BOOL didFinishLaunching = %orig;
-
+    
     // Check if the app is Roblox
     NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     if ([bundleIdentifier isEqualToString:@"com.roblox.robloxmobile"]) {
@@ -19,9 +21,11 @@
     } else {
         NSLog(@"App is not Roblox.");
     }
-
+    
     return didFinishLaunching;
 }
+
+%end
 
 %new
 - (void)injectFloatingIcon {
@@ -39,10 +43,10 @@
             floatingIcon.backgroundColor = [UIColor redColor]; // Set background color to red
             floatingIcon.layer.cornerRadius = 25; // Make it a circle
             floatingIcon.layer.masksToBounds = YES;
-
+            
             UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconTapped)];
             [floatingIcon addGestureRecognizer:tapGesture];
-
+            
             [rootViewController.view addSubview:floatingIcon];
             NSLog(@"Floating icon added to the view.");
         } else {
