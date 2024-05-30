@@ -1,34 +1,39 @@
-/* How to Hook with Logos
-Hooks are written with syntax similar to that of an Objective-C @implementation.
-You don't need to #include <substrate.h>, it will be done automatically, as will
-the generation of a class list and an automatic constructor.
+#import <UIKit/UIKit.h>
 
-%hook ClassName
+%hook UIApplicationDelegate
 
-// Hooking a class method
-+ (id)sharedInstance {
-	return %orig;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    BOOL didFinishLaunching = %orig;
+
+    // Check if the app is Roblox
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    if ([bundleIdentifier isEqualToString:@"com.roblox.robloxmobile"]) {
+        // Inject floating icon here
+        [self injectFloatingIcon];
+    }
+
+    return didFinishLaunching;
 }
 
-// Hooking an instance method with an argument.
-- (void)messageName:(int)argument {
-	%log; // Write a message about this call, including its class, name and arguments, to the system log.
+- (void)injectFloatingIcon {
+    UIViewController *rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+    if ([rootViewController isKindOfClass:[UIViewController class]]) {
+        // Create and add the floating icon
+        UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)]; // Adjust frame as needed
+        floatingIcon.backgroundColor = [UIColor redColor]; // Set background color to red
+        floatingIcon.layer.cornerRadius = 25; // Make it a circle
+        floatingIcon.layer.masksToBounds = YES;
 
-	%orig; // Call through to the original function with its original arguments.
-	%orig(nil); // Call through to the original function with a custom argument.
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconTapped)];
+        [floatingIcon addGestureRecognizer:tapGesture];
 
-	// If you use %orig(), you MUST supply all arguments (except for self and _cmd, the automatically generated ones.)
+        [rootViewController.view addSubview:floatingIcon];
+    }
 }
 
-// Hooking an instance method with no arguments.
-- (id)noArguments {
-	%log;
-	id awesome = %orig;
-	[awesome doSomethingElse];
-
-	return awesome;
+- (void)iconTapped {
+    // Handle icon tap event
+    NSLog(@"Floating icon tapped!");
 }
 
-// Always make sure you clean up after yourself; Not doing so could have grave consequences!
 %end
-*/
