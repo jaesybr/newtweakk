@@ -1,13 +1,12 @@
+INSTALL_TARGET_PROCESSES = RobloxMobile
 ARCHS = arm64
-TARGET := iphone:clang:latest:7.0
-INSTALL_TARGET_PROCESSES = '_'
-
+TARGET = iphone:clang::13.0
+DEBUG = 0
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = newtweakk
+TWEAK_NAME = FloatingIconTweak
 
-newtweakk_FILES = Tweak.x
-newtweakk_CFLAGS = -fobjc-arc
+FloatingIconTweak_FILES = Tweak.x
 
 include $(THEOS_MAKE_PATH)/tweak.mk
