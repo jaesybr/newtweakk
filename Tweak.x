@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 
-// Declare the injectFloatingIcon method to avoid method not found error
-@interface UIApplicationDelegate (FloatingIcon)
+// Declare the injectFloatingIcon method within a category on NSObject
+@interface NSObject (FloatingIcon)
 - (void)injectFloatingIcon;
 @end
 
@@ -20,6 +20,7 @@
     return didFinishLaunching;
 }
 
+%new
 - (void)injectFloatingIcon {
     // Get the root view controller in a way compatible with iOS 13 and later
     UIWindow *keyWindow = [UIApplication sharedApplication].windows.firstObject;
@@ -39,6 +40,7 @@
     }
 }
 
+%new
 - (void)iconTapped {
     // Handle icon tap event
     NSLog(@"Floating icon tapped!");
