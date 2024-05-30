@@ -1,9 +1,9 @@
-Package: com.yourcompany.newtweakk
-Name: newtweakk
-Version: 0.0.1
+Package: com.trap.floatingicontweak
+Name: Floating Icon Tweak
+Depends: mobilesubstrate
+Version: 1.0
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
-Maintainer: gods
-Author: gods
+Description: Injects a floating icon into the Roblox app.
+Maintainer: trapp
+Author: trappp
 Section: Tweaks
-Depends: mobilesubstrate (>= 0.9.5000)
