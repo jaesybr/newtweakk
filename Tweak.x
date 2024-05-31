@@ -1,26 +1,16 @@
-#import <UIKit/UIKit.h>
-
-@interface UIApplicationDelegate : UIResponder <UIApplicationDelegate>
-@end
+#import "RBWebHomeViewController.h"
 
 @interface NSObject (FloatingIcon)
 - (void)injectFloatingIcon;
 @end
 
-%hook UIApplicationDelegate
+%hook RBWebHomeViewController
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    BOOL didFinishLaunching = %orig;
+- (void)viewDidLoad {
+    %orig;
     
-    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
-    if ([bundleIdentifier isEqualToString:@"com.roblox.robloxmobile"]) {
-        NSLog(@"Roblox detected. Injecting floating icon.");
-        [self injectFloatingIcon];
-    } else {
-        NSLog(@"App is not Roblox.");
-    }
-    
-    return didFinishLaunching;
+    // Call your method to inject the floating icon
+    [self injectFloatingIcon];
 }
 
 %new
@@ -28,11 +18,12 @@
     NSLog(@"injectFloatingIcon method called.");
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        // Adding the floating icon to the view
         UIWindow *keyWindow = [UIApplication sharedApplication].windows.firstObject;
         UIViewController *rootViewController = keyWindow.rootViewController;
         
-        if ([rootViewController isKindOfClass:[UIViewController class]]) {
-            NSLog(@"Root view controller obtained. Adding floating icon.");
+        if ([rootViewController isKindOfClass:[RBWebHomeViewController class]]) {
+            NSLog(@"RBWebHomeViewController obtained. Adding floating icon.");
             UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)];
             floatingIcon.backgroundColor = [UIColor redColor];
             floatingIcon.layer.cornerRadius = 25;
@@ -44,7 +35,7 @@
             [rootViewController.view addSubview:floatingIcon];
             NSLog(@"Floating icon added to the view.");
         } else {
-            NSLog(@"Root view controller is not of expected type.");
+            NSLog(@"RBWebHomeViewController not found.");
         }
     });
 }
