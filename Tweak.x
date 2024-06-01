@@ -1,5 +1,8 @@
 #import <UIKit/UIKit.h>
 
+@interface RBWebHomeViewController : UIViewController
+@end
+
 %hook RBWebHomeViewController
 
 - (void)viewDidLoad {
@@ -18,7 +21,7 @@
         UIWindow *keyWindow = [UIApplication sharedApplication].windows.firstObject;
         UIViewController *rootViewController = keyWindow.rootViewController;
         
-        if ([rootViewController isKindOfClass:NSClassFromString(@"RBWebHomeViewController")]) {
+        if ([rootViewController isKindOfClass:[RBWebHomeViewController class]]) {
             NSLog(@"RBWebHomeViewController obtained. Adding floating icon.");
             UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)];
             floatingIcon.backgroundColor = [UIColor redColor];
