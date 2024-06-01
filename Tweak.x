@@ -2,7 +2,6 @@
 
 @interface RBWebHomeViewController : UIViewController
 
-// Declare the injectFloatingIcon method in the interface
 - (void)injectFloatingIcon;
 
 @end
@@ -12,22 +11,20 @@
 - (void)viewDidLoad {
     %orig;
     
-    // Call your method to inject the floating icon
     [self injectFloatingIcon];
 }
 
 %new
 - (void)injectFloatingIcon {
-    NSLog(@"injectFloatingIcon method called.");
+    NSLog(@"Adding a floating icon...");
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Check if window scene is available
         if (@available(iOS 13.0, *)) {
             UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
             if (windowScene) {
                 UIWindow *keyWindow = windowScene.windows.firstObject;
                 if (keyWindow && keyWindow.rootViewController == self) {
-                    NSLog(@"RBWebHomeViewController obtained. Adding floating icon.");
+                    NSLog(@"Found the main view controller. Adding the floating icon.");
                     UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)];
                     floatingIcon.backgroundColor = [UIColor redColor];
                     floatingIcon.layer.cornerRadius = 25;
@@ -37,9 +34,9 @@
                     [floatingIcon addGestureRecognizer:tapGesture];
                     
                     [keyWindow addSubview:floatingIcon];
-                    NSLog(@"Floating icon added to the view.");
+                    NSLog(@"Floating icon successfully added to the view.");
                 } else {
-                    NSLog(@"RBWebHomeViewController not found.");
+                    NSLog(@"Unable to find the main view controller.");
                 }
             }
         }
@@ -48,7 +45,7 @@
 
 %new
 - (void)iconTapped {
-    NSLog(@"Floating icon tapped!");
+    NSLog(@"The floating icon was tapped!");
 }
 
 %end
