@@ -6,8 +6,8 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = newtweakk
 
-YourTweakName_FILES = Tweak.x
-YourTweakName_FRAMEWORKS = UIKit
+newtweakk_FILES = Tweak.x
+newtweakk_FRAMEWORKS = UIKit
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
