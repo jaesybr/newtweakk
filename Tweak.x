@@ -1,8 +1,6 @@
-#import "RBWebHomeViewController.h"
+#import <UIKit/UIKit.h> // Import UIKit
 
-@interface NSObject (FloatingIcon)
-- (void)injectFloatingIcon;
-@end
+#import "RBWebHomeViewController.h"
 
 %hook RBWebHomeViewController
 
