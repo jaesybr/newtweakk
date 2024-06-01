@@ -1,5 +1,5 @@
 ARCHS = arm64
-TARGET = iphone:clang:14.0:14.0
+TARGET = iphone:clang:16.5:16.5
 INSTALL_TARGET_PROCESSES = newtweakk
 
 include $(THEOS)/makefiles/common.mk
