@@ -1,6 +1,10 @@
 #import <UIKit/UIKit.h>
 
 @interface RBWebHomeViewController : UIViewController
+
+// Declare the injectFloatingIcon method in the interface
+- (void)injectFloatingIcon;
+
 @end
 
 %hook RBWebHomeViewController
