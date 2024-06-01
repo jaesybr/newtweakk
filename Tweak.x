@@ -22,10 +22,10 @@
     
     dispatch_async(dispatch_get_main_queue(), ^{
         // Adding the floating icon to the view
-        UIWindow *keyWindow = [UIApplication sharedApplication].windows.firstObject;
-        UIViewController *rootViewController = keyWindow.rootViewController;
+        UIWindowScene *windowScene = (UIWindowScene *)[UIApplication sharedApplication].connectedScenes.allObjects.firstObject;
+        UIWindow *keyWindow = windowScene.windows.firstObject;
         
-        if ([rootViewController isKindOfClass:[RBWebHomeViewController class]]) {
+        if ([keyWindow.rootViewController isKindOfClass:[RBWebHomeViewController class]]) {
             NSLog(@"RBWebHomeViewController obtained. Adding floating icon.");
             UIView *floatingIcon = [[UIView alloc] initWithFrame:CGRectMake(100, 100, 50, 50)];
             floatingIcon.backgroundColor = [UIColor redColor];
@@ -35,7 +35,7 @@
             UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconTapped)];
             [floatingIcon addGestureRecognizer:tapGesture];
             
-            [rootViewController.view addSubview:floatingIcon];
+            [keyWindow addSubview:floatingIcon];
             NSLog(@"Floating icon added to the view.");
         } else {
             NSLog(@"RBWebHomeViewController not found.");
